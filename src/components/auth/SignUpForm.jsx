@@ -10,22 +10,20 @@ class SignUpForm extends Component {
 		return (
 			<div>
 				<h2>Sign Up</h2>
-				<Form horizontal>
-					<form onSubmit={handleSubmit} >
-						<div>
-							<Field name='email' component={ErrorField} />
-						</div>
+				<Form onSubmit={handleSubmit} horizontal>
+					<div>
+						<Field name='email' component={ErrorField} />
+					</div>
 
-						<div>
-							<Field name='password' component={ErrorField} type='password' />
-						</div>
+					<div>
+						<Field name='password' component={ErrorField} type='password' />
+					</div>
 
-						<div className="sbm">
-							<Button bsStyle="primary" type="submit">
-								Submit
-							</Button>
-						</div>
-					</form>
+					<div className="sbm">
+						<Button bsStyle="primary" type="submit">
+							Submit
+						</Button>
+					</div>
 				</Form>
 			</div>
 		);

@@ -6,7 +6,7 @@ export default class ErrorField extends Component {
 		const {input, type, meta: {error, touched} } = this.props;
 		const errorText = touched && error && <div style={{color: 'red'}} >{error}</div>;
 		return (
-			<FormGroup controlId="formBasicText" validationState="error">
+			<FormGroup>
 				<label>{input.name.charAt(0).toUpperCase() + input.name.substr(1)}</label>
 				<FormControl {...input} type={type} />
 				{errorText}
