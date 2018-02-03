@@ -1,24 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { Button, Form } from 'react-bootstrap';
 import { reduxForm, Field } from 'redux-form';
+import Fields from '../auth/Fields';
 import validator from 'validator';
-import Fields from './Fields';
-import { Button, Form }  from 'react-bootstrap';
 
-class SignUpForm extends Component {
+class NewPersonForm extends Component {
 	render() {
-		const { handleSubmit } = this.props;
+		const {handleSubmit} = this.props;
 		return (
 			<div>
-				<h2>Sign Up</h2>
 				<Form onSubmit={handleSubmit} horizontal>
-					<div>
+						<Field name='firstName' component={Fields} />
+						<Field name='lastName' component={Fields} />
 						<Field name='email' component={Fields} />
-					</div>
-
-					<div>
-						<Field name='password' component={Fields} type='password' />
-					</div>
-
 					<div className="sbm">
 						<Button bsStyle="primary" type="submit">
 							Submit
@@ -26,23 +20,23 @@ class SignUpForm extends Component {
 					</div>
 				</Form>
 			</div>
-		);
+		)
 	}
 }
 
-const validate = ({email, password}) => {
+const validate = ({ firstName, email }) => {
 	const errors = {};
 
 	if (!email) errors.email = 'email can\'t be blank';
 	else if (!validator.isEmail(email)) errors.email = 'Enter valid Email';
 
-	if (!password) errors.password = 'password can\'t be blank';
-	else if (password.length < 5) errors.password = 'password is to short';
+	if (!firstName) errors.firstName = 'Firstname can\'t be blank';
+	else if (firstName.length < 3) errors.firstName = 'Firstname is to short';
 
 	return errors;
 };
 
 export default reduxForm({
-	form: 'auth',
+	form: 'person',
 	validate
-})(SignUpForm);
+})(NewPersonForm);

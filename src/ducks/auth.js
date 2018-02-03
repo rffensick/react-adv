@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import {appName} from '../config';
 import {Record} from 'immutable';
+import { put, call, take, all } from 'redux-saga/effects';
 
 const ReducerRecord = Record({
 	user: null,
@@ -9,9 +10,10 @@ const ReducerRecord = Record({
 });
 
 export const moduleName = 'auth';
-export const SIGN_UP_REQUEST = `${appName}/${moduleName}/SIGN_UP_REQUEST`;
-export const SIGN_UP_SUCCESS = `${appName}/${moduleName}/SIGN_UP_SUCCESS`;
-export const SIGN_UP_ERROR = `${appName}/${moduleName}/SIGN_UP_ERROR`;
+const prefix = `${appName}/${moduleName}`;
+export const SIGN_UP_REQUEST = `${prefix}/SIGN_UP_REQUEST`;
+export const SIGN_UP_SUCCESS = `${prefix}/SIGN_UP_SUCCESS`;
+export const SIGN_UP_ERROR = `${prefix}/SIGN_UP_ERROR`;
 
 export const SIGN_IN_SUCCESS = `${appName}/${moduleName}/SIGN_IN_SUCCESS`;
 
@@ -21,7 +23,7 @@ export default function reducer(state = new ReducerRecord(), action) {
 	case SIGN_UP_REQUEST:
 		return state.set('loading', true);
 
-	case SIGN_IN_SUCCESS:
+	case SIGN_UP_SUCCESS:
 		return state
 			.set('loading', false)
 			.set('user', payload.user )
@@ -38,22 +40,55 @@ export default function reducer(state = new ReducerRecord(), action) {
 }
 
 export function signUp(email, password) {
-	return (dispatch) => {
-		dispatch({
-			type: SIGN_UP_REQUEST
-		})
-
-		firebase.auth().createUserWithEmailAndPassword(email, password)
-			.then(user => dispatch({
-				type: SIGN_IN_SUCCESS,
-				payload: {user}
-			}))
-			.catch(error => dispatch({
-				type: SIGN_UP_ERROR,
-				error
-			}))
+	return {
+		type: SIGN_UP_REQUEST,
+		payload: {email, password}
 	}
 }
+
+export const signUpSaga = function* () {
+	const action = yield take(SIGN_UP_REQUEST);
+	const auth = firebase.auth();
+
+	try {
+		const user = yield call(
+			[auth, auth.createUserWithEmailAndPassword], action.payload.email, action.payload.password)
+
+		yield put({
+			type: SIGN_UP_SUCCESS,
+			payload: { user }
+		});	
+	} catch (error) {
+		yield put({
+			type: SIGN_UP_ERROR,
+			error
+		});
+	}
+}
+
+export const saga = function* () {
+	yield all([
+		signUpSaga()
+	]);
+}
+
+// export function signUp(email, password) {
+// 	return (dispatch) => {
+// 		dispatch({
+// 			type: SIGN_UP_REQUEST
+// 		})
+
+// 		firebase.auth().createUserWithEmailAndPassword(email, password)
+// 			.then(user => dispatch({
+// 				type: SIGN_UP_SUCCESS,
+// 				payload: {user}
+// 			}))
+// 			.catch(error => dispatch({
+// 				type: SIGN_UP_ERROR,
+// 				error
+// 			}))
+// 	}
+// }
 
 firebase.auth().onAuthStateChanged(user => {
 	const store = require('../redux').default;
