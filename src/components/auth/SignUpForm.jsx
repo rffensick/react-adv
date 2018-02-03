@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import validator from 'validator';
 import ErrorField from './ErrorField';
+import { Button, Form }  from 'react-bootstrap';
 
 class SignUpForm extends Component {
 	render() {
@@ -9,19 +10,23 @@ class SignUpForm extends Component {
 		return (
 			<div>
 				<h2>Sign Up</h2>
-				<form onSubmit={handleSubmit} >
-					<div>
-						<Field name='email' component={ErrorField} />
-					</div>
+				<Form horizontal>
+					<form onSubmit={handleSubmit} >
+						<div>
+							<Field name='email' component={ErrorField} />
+						</div>
 
-					<div>
-						<Field name='password' component={ErrorField} type='password' />
-					</div>
+						<div>
+							<Field name='password' component={ErrorField} type='password' />
+						</div>
 
-					<div>
-						<input type="submit" />
-					</div>
-				</form>
+						<div className="sbm">
+							<Button bsStyle="primary" type="submit">
+								Submit
+							</Button>
+						</div>
+					</form>
+				</Form>
 			</div>
 		);
 	}
