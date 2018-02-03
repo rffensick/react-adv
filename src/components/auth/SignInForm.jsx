@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {reduxForm, Field} from 'redux-form';
+import { Button, Form }  from 'react-bootstrap';
+import ErrorField from './ErrorField';
 
 class SignInForm extends Component {
 	render() {
@@ -7,22 +9,23 @@ class SignInForm extends Component {
 		return (
 			<div>
 				<h2>Sign In</h2>
-				<form onSubmit={ handleSubmit } >
+				<Form horizontal>
+					<form onSubmit={ handleSubmit } >
+						<div>
+							<Field name='email' component={ ErrorField } />
+						</div>
 
-					<div>
-						<label htmlFor='email'>Email:</label>
-						<Field name='email' component='input' />
-					</div>
+						<div>
+							<Field name='password' component={ ErrorField } type='password' />
+						</div>
 
-					<div>
-						<label htmlFor='password'>Password:</label>
-						<Field name='password' component='input' type='password' />
-					</div>
-
-					<div>
-						<input type="submit"/>
-					</div>
-				</form>
+						<div className="sbm">
+							<Button bsStyle="primary" type="submit">
+								Submit
+							</Button>
+						</div>
+					</form>
+				</Form>
 			</div>
 		);
 	}
