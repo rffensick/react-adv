@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import SignInForm from '../auth/SignInForm';
 import SignUpForm from '../auth/SignUpForm';
 import {Route, NavLink} from 'react-router-dom';
+import { connect } from 'react-redux'
+import {signUp} from '../../ducks/auth';
 
-export default class AuthPage extends Component {
+class AuthPage extends Component {
 
 	handleSignIn = (values) => console.log(values);
-	handleSignUp = (values) => console.log(values);
+	handleSignUp = ({email, password}) => this.props.signUp(email, password);
 
 	render() {
 		return (
@@ -22,3 +24,5 @@ export default class AuthPage extends Component {
 		);
 	}
 }
+
+export default connect(null, {signUp})(AuthPage);
