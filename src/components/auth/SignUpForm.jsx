@@ -33,11 +33,11 @@ class SignUpForm extends Component {
 const validate = ({email, password}) => {
 	const errors = {};
 
-	if (!email) errors.email = 'email can\'t be blank';
+	if (!email) errors.email = 'E-mail can\'t be blank';
 	else if (!validator.isEmail(email)) errors.email = 'Enter valid Email';
 
-	if (!password) errors.password = 'password can\'t be blank';
-	else if (password.length < 5) errors.password = 'password is to short';
+	if (!password) errors.password = 'Password can\'t be blank';
+	else if (password.length < 5) errors.password = 'Password is too short';
 
 	return errors;
 };
