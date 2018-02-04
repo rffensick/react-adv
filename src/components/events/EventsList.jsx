@@ -16,7 +16,7 @@ class EventsList extends Component {
 				<td>{event.month}</td>
 			</tr>
 		)
-	}
+	};
 	
 	getRows = () => {
 		return this.props.events.map(event => this.getRow(event));

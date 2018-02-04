@@ -2,7 +2,7 @@ import firebase from 'firebase';
 import { appName } from '../config';
 import { Record, OrderedMap } from 'immutable';
 import { all, take, put, call } from 'redux-saga/effects';
-import {createSelector} from 'reselect';
+import { createSelector } from 'reselect';
 import { arrToMap } from './utils';
 
 /**
