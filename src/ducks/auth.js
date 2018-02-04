@@ -72,23 +72,6 @@ export const saga = function* () {
 	]);
 }
 
-// export function signUp(email, password) {
-// 	return (dispatch) => {
-// 		dispatch({
-// 			type: SIGN_UP_REQUEST
-// 		})
-
-// 		firebase.auth().createUserWithEmailAndPassword(email, password)
-// 			.then(user => dispatch({
-// 				type: SIGN_UP_SUCCESS,
-// 				payload: {user}
-// 			}))
-// 			.catch(error => dispatch({
-// 				type: SIGN_UP_ERROR,
-// 				error
-// 			}))
-// 	}
-// }
 
 firebase.auth().onAuthStateChanged(user => {
 	const store = require('../redux').default;
