@@ -6,8 +6,8 @@ import ProtectedRoute from './common/ProtectedRoute';
 import PersonPage from './routes/PersonPage';
 import EventsPage from './routes/EventsPage';
 import { connect } from 'react-redux'
-import {moduleName} from '../ducks/auth';
-import {signOut} from '../ducks/auth';
+import { moduleName } from '../ducks/auth';
+import { signOut } from '../ducks/auth';
 
 class Root extends Component {
 	render() {
@@ -27,4 +27,4 @@ class Root extends Component {
 
 export default connect(state => ({
 	signedIn: !!state[moduleName].user
-}), { signOut }, null, { pure: false,})(Root);
+}), { signOut }, null, { pure: false })(Root);

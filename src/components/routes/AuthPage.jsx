@@ -12,26 +12,28 @@ class AuthPage extends Component {
 	handleSignUp = ({email, password}) => this.props.signUp(email, password);
 
 	render() {
-		const {loading} = this.props;
+		const {loading, user} = this.props;
 		if (loading) return <div>Loading...</div>
 		return (
 			<Jumbotron>
 				<Grid>
-					<div>
-						<Col>
-						<h1>AuthorizationPage</h1>
-						</Col>
-						<Row className="show-grid">
-							<Col md={1} mdPull={11}>
-							<NavLink className="sign" to='/auth/signin' activeStyle={{fontWeight: 'bold'}} >Sign In</NavLink>
+					{user ? <div>Your in system</div> : 
+						<div>
+							<Col>
+							<h1>AuthorizationPage</h1>
 							</Col>
-							<Col md={1} mdPush={11}>
-							<NavLink className="sign" to='/auth/signup' activeStyle={{fontWeight: 'bold'}} >Sign Up</NavLink>
-							</Col>
-						</Row>
-						<Route path='/auth/signin' render={() => <SignInForm onSubmit={this.handleSignIn} ></SignInForm> } />
-						<Route path='/auth/signup' render={() => <SignUpForm onSubmit={this.handleSignUp} ></SignUpForm>} />
-					</div>
+							<Row className="show-grid">
+								<Col md={1} mdPull={11}>
+								<NavLink className="sign" to='/auth/signin' activeStyle={{fontWeight: 'bold'}} >Sign In</NavLink>
+								</Col>
+								<Col md={1} mdPush={11}>
+								<NavLink className="sign" to='/auth/signup' activeStyle={{fontWeight: 'bold'}} >Sign Up</NavLink>
+								</Col>
+							</Row>
+							<Route path='/auth/signin' render={() => <SignInForm onSubmit={this.handleSignIn} ></SignInForm> } />
+							<Route path='/auth/signup' render={() => <SignUpForm onSubmit={this.handleSignUp} ></SignUpForm>} />
+						</div>
+					}
 				</Grid>	
 			</Jumbotron>
 		);
@@ -39,5 +41,6 @@ class AuthPage extends Component {
 }
 
 export default connect(state => ({
-	loading: state[moduleName].loading
+	loading: state[moduleName].loading,
+	user: !!state[moduleName].user
 }), {signUp, signIn})(AuthPage);
