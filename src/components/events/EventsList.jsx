@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {fetchAll, eventsListSelector} from '../../ducks/events';
+import {moduleName} from '../../ducks/events';
+import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react';
 
 class EventsList extends Component {
 
@@ -23,9 +25,18 @@ class EventsList extends Component {
 	}
 
 	render() {
-		console.log(this.props.events);
+		const {loading} = this.props;
 		return (
 			<div>
+				{loading && 
+					<Segment>
+						<Dimmer active inverted>
+							<Loader size='large'>Loading</Loader>
+						</Dimmer>
+
+						<Image src='/assets/images/wireframe/image-text.png' />
+					</Segment>
+				}
 				<table>
 					<tbody>
 						{this.getRows()}
@@ -37,5 +48,6 @@ class EventsList extends Component {
 }
 
 export default connect(state => ({
-	events: eventsListSelector(state)
+	events: eventsListSelector(state),
+	loading: state[moduleName].loading
 }), {fetchAll})(EventsList);
