@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {fetchAll, eventsListSelector} from '../../ducks/events';
+import { fetchAll, eventsListSelector, selectEvent } from '../../ducks/events';
 import {moduleName} from '../../ducks/events';
 import { Dimmer, Loader, Image, Segment, Table, Header } from 'semantic-ui-react';
 
-class EventsList extends Component {
+export class EventsList extends Component {
 
 	componentDidMount() {
 		this.props.fetchAll();
 	}
 
+	handleRowClick = (uid) => () => {
+		const {selectEvent} = this.props;
+		selectEvent && selectEvent(uid);
+	}
+
 	getRow = (event) => {
 		return (
-			<Table.Row key={event.uid} >
-				<Table.Cell>{event.title}</Table.Cell>
+			<Table.Row className='test--event-list__row' onClick={this.handleRowClick(event.uid)} key={event.uid} >
+				<Table.Cell> <Header as='h4' >{event.title}</Header> </Table.Cell>
 				<Table.Cell>{event.where}</Table.Cell>
 				<Table.Cell>{event.month}</Table.Cell>
 			</Table.Row>
@@ -25,6 +30,7 @@ class EventsList extends Component {
 	}
 
 	render() {
+		console.log('render');
 		const {loading, loaded} = this.props;
 		return (
 			<div>
@@ -59,4 +65,4 @@ export default connect(state => ({
 	events: eventsListSelector(state),
 	loading: state[moduleName].loading,
 	loaded: state[moduleName].loaded
-}), {fetchAll})(EventsList);
+}), { fetchAll, selectEvent })(EventsList);
